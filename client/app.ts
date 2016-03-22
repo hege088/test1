@@ -47,8 +47,8 @@ class RestAPIs {
 
     getIP(): string {
         var resIP = Session.get('resIP');
-        if (Session.get('resIP') != null)
-            return JSON.parse(Session.get('resIP')).ip;
+        if (resIP != null)
+            return JSON.parse(resIP).ip;
     }
 
     getRandomNumbers(): Array<string> {
