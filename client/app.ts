@@ -18,7 +18,7 @@ class RestAPIs {
     onClickRandomNumber(num, $event) {
         if ($event instanceof MouseEvent) {
             if (num >= 1 && num <= 1024) {
-                this.calcRandomNumber(num);
+                this.calcRandomNumbers(num);
             }
             else {
                 alert("Number should between 1 and 1024")
@@ -36,23 +36,25 @@ class RestAPIs {
             });
     }
 
-    calcRandomNumber(num) {
+    calcRandomNumbers(num) {
         HTTP.call("GET", "https://qrng.anu.edu.au/API/jsonI.php?length=" + num + "&type=uint8",
             function(error, result) {
                 if (!error) {
-                    Session.set("resRandomNumber", result.content);
+                    Session.set("resRandomNumbers", result.content);
                 }
             });
     }
 
     getIP(): string {
+        var resIP = Session.get('resIP');
         if (Session.get('resIP') != null)
             return JSON.parse(Session.get('resIP')).ip;
     }
 
     getRandomNumbers(): Array<string> {
-        if (Session.get('resRandomNumber') != null)
-            return JSON.parse(Session.get('resRandomNumber')).data;
+        var resRandomNumbers = Session.get('resRandomNumbers');
+        if (resRandomNumbers != null)
+            return JSON.parse(resRandomNumbers).data;
     }
 
 
