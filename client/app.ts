@@ -23,7 +23,12 @@ class RestAPIs {
             else {
                 alert("Number should between 1 and 1024")
             }
+        }
+    }
 
+    onClickNexusArtifakts(artifactId, groupId, packaging, $event) {
+        if ($event instanceof MouseEvent) {
+            this.calcNexusArtifakts(artifactId, groupId, packaging);
         }
     }
 
@@ -45,6 +50,24 @@ class RestAPIs {
             });
     }
 
+    calcNexusArtifakts(artifactId, groupId, packaging) {
+        HTTP.call("GET", "https://nexus.faktorzehn.at/nexus/service/local/data_index", {
+            headers: {
+                "Accept": "application/json"
+            },
+            params: {
+                "a": artifactId,
+                "g": groupId,
+                "p": packaging
+            }
+        },
+            function(error, result) {
+                if (!error) {
+                    Session.set("resNexusArtifakts", result.content);
+                }
+            });
+    }
+
     getIP(): string {
         var resIP = Session.get('resIP');
         if (resIP != null)
@@ -57,6 +80,12 @@ class RestAPIs {
             return JSON.parse(resRandomNumbers).data;
     }
 
+    getNexusArtifakts() {
+        var resNexusArtifakts = Session.get('resNexusArtifakts');
+        if (resNexusArtifakts != null) {
+            return JSON.parse(resNexusArtifakts).data;
+        }
+    }
 
 }
 

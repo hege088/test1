@@ -1,11 +1,54 @@
-<p>My Ip is {{ getIP() }}</p>
-<button (click)="onClickIP($event)">Load IP</button>
+<div>
+  <p>IP:</p>
+  <button (click)="onClickIP($event)">Load IP</button>
 
-<p>Random Numbers:</p>
-<ul>
+  <p>My Ip is {{ getIP() }}</p>
+</div>
+
+<br>
+
+<div>
+  <p>Random Numbers:</p>
+  <input type="text" #numRandomNumbers>
+  <button (click)="onClickRandomNumber(numRandomNumbers.value,$event)">Load Random Number</button>
+
+  <ul>
       <li *ngFor="#randNum1 of getRandomNumbers()">
         {{ randNum1 }}
       </li>
-</ul>
-<input type="text" #numRandomNumbers>
-<button (click)="onClickRandomNumber(numRandomNumbers.value,$event)">Load Random Number</button>
+    </ul>
+</div>
+
+<br>
+
+<div>
+  <p>Nexus Search:</p>
+  <table>
+    <tr>
+      <th>ArtifactId</th>
+      <th>GroupId</th>
+      <th>Packaging</th>
+    </tr>
+    <tr>
+      <td><input type="text" #nexusArtifactId></td>
+      <td><input type="text" #nexusGroupId></td>
+      <td><input type="text" #nexusPackaging value="war"></td>
+      <button (click)="onClickNexusArtifakts(nexusArtifactId.value,nexusGroupId.value,nexusPackaging.value,$event)">Load Nexus Artifakts</button>
+    </tr>
+  </table>
+
+  <br>
+
+  <table>
+    <tr>
+      <th>ArtifactId</th>
+      <th>GroupId</th>
+      <th>ResourceURI</th>
+    </tr>
+      <tr *ngFor="#artifakt of getNexusArtifakts()">
+        <td>{{ artifakt.artifactId }}</td>
+        <td>{{ artifakt.groupId }}</td>
+        <td><a href="{{ artifakt.resourceURI }}">{{ artifakt.resourceURI }}</a></td>
+      </tr>
+    </table>
+</div>
