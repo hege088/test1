@@ -1,5 +1,5 @@
 import {Component, View} from 'angular2/core';
-import {bootstrap} from 'angular2/platform/browser';
+import {bootstrap} from 'angular2-meteor';
 
 @Component({
     selector: 'app'
@@ -8,37 +8,55 @@ import {bootstrap} from 'angular2/platform/browser';
     templateUrl: 'client/app.html'
 })
 class RestAPIs {
-    getData: string;
-    public ip = {};
-    public randomNumber = {};
-    constructor() {
-        this.ip = JSON.parse(this.getIP());
-        //this.randomNumber = (this.getRandomNumber());
-        //console.log(this.randomNumber);
+
+    onClickIP($event) {
+        if ($event instanceof MouseEvent) {
+            this.calcIP();
+        }
     }
 
-    getIP() {
+    onClickRandomNumber(num, $event) {
+        if ($event instanceof MouseEvent) {
+            if (num >= 1 && num <= 1024) {
+                this.calcRandomNumber(num);
+            }
+            else {
+                alert("Number should between 1 and 1024")
+            }
+
+        }
+    }
+
+    calcIP() {
         HTTP.call("GET", "http://jsonip.com/",
             function(error, result) {
                 if (!error) {
                     Session.set("resIP", result.content);
                 }
             });
-        return Session.get('resIP');
     }
 
-    getRandomNumber() {
-        HTTP.call("GET", "https://qrng.anu.edu.au/API/jsonI.php?length=1&type=uint8",
+    calcRandomNumber(num) {
+        HTTP.call("GET", "https://qrng.anu.edu.au/API/jsonI.php?length=" + num + "&type=uint8",
             function(error, result) {
                 if (!error) {
-                    Session.set("resRandomNumber", result.data);
-                    console.log(result.data);
+                    Session.set("resRandomNumber", result.content);
                 }
             });
-        return Session.get('resRandomNumber');
+    }
+
+    getIP(): string {
+        if (Session.get('resIP') != null)
+            return JSON.parse(Session.get('resIP')).ip;
+    }
+
+    getRandomNumbers(): Array<string> {
+        if (Session.get('resRandomNumber') != null)
+            return JSON.parse(Session.get('resRandomNumber')).data;
     }
 
 
 }
+
 
 bootstrap(RestAPIs);

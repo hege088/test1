@@ -1,3 +1,11 @@
-<p>My Ip is {{ ip.ip }}</p>
-<p>Random Number {{ randomNumber }}</p>
-<button onclick="foo()">click me!</button>
+<p>My Ip is {{ getIP() }}</p>
+<button (click)="onClickIP($event)">Load IP</button>
+
+<p>Random Numbers:</p>
+<ul>
+      <li *ngFor="#randNum1 of getRandomNumbers()">
+        {{ randNum1 }}
+      </li>
+</ul>
+<input type="text" #numRandomNumbers>
+<button (click)="onClickRandomNumber(numRandomNumbers.value,$event)">Load Random Number</button>

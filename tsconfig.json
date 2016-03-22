@@ -2,7 +2,8 @@
   "files": [
     "typings/main.d.ts",
     "typings/angular2-meteor/angular2-meteor.d.ts",
-    "client/app.ts"
+    "client/app.ts",
+    "server1/test.ts"
   ],
   "compileOnSave": false,
   "atom": {
